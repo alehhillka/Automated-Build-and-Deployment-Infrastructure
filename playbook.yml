@@ -6,3 +6,9 @@
     - name: clamav_role
       vars:
         aws_ec2_inventory: /var/lib/jenkins/clamAV/aws_ec2.yml
+---
+- name: Install ClamAV role on EC2 instances
+  hosts: localhost  # Встановлювати роль на localhost
+  become: true
+  roles:
+    - name: clamav_role
