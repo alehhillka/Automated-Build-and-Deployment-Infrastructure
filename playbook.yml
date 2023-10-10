@@ -4,3 +4,5 @@
   become: true
   roles:
     - name: clamav_role
+      vars:
+        aws_ec2_inventory: /var/lib/jenkins/clamAV/aws_ec2.yml
