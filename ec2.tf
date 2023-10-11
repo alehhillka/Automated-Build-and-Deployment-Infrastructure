@@ -5,7 +5,7 @@ provider "aws" {
 resource "aws_instance" "project" {
   count = 1
   ami           = "ami-0427a796a4e582276" 
-  instance_type = "t2.micro"
+  instance_type = "t2.small"
   vpc_security_group_ids = [aws_security_group.project.id]
   subnet_id = module.vpc.public_subnets[0]
   key_name      = "ssh" 
@@ -17,4 +17,7 @@ resource "aws_instance" "project" {
     "Name" = "project_1"
   }
  
+}
+resource "aws_ecr_repository" "nodejs" { #Create ecr
+  name = "nodejs"
 }
