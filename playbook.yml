@@ -1,9 +1,9 @@
 ---
-- name: Install ClamAV role on EC2 instances
+- name: Install ClamAV role on EC2 instances #Dynamic inventory to install role in all ec2 in az
   hosts: all
   become: yes
   roles:
-    - name: clamav_role
+    - name: clamav_role            
       vars:
         aws_ec2_inventory: /var/lib/jenkins/clamAV/aws_ec2.yml
 
