@@ -2,7 +2,6 @@
 - name: Install ClamAV role on EC2 instances
   hosts: all
   become: yes
-  become_method: su 
   roles:
     - name: clamav_role
       vars:
@@ -11,6 +10,5 @@
 - name: Install ClamAV role on localhost
   hosts: localhost  # Встановлювати роль на localhost
   become: yes
-  become_method: su
   roles:
     - name: clamav_role
