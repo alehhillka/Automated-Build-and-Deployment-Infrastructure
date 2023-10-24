@@ -26,6 +26,10 @@ resource "aws_iam_role_policy_attachment" "ecr_access" {
   role       = aws_iam_role.project_role.name
 }
 
+resource "aws_iam_role_policy_attachment" "cloudfront_access" {
+  policy_arn = "arn:aws:iam::aws:policy/CloudFrontFullAccess"
+  role       = aws_iam_role.project_role.name
+}
 
 resource "aws_iam_instance_profile" "project_profile" {
   name = "project_profile"
