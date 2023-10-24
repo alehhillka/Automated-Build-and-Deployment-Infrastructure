@@ -4,7 +4,7 @@ provider "aws" {
 
 resource "aws_instance" "project" {
   count = 1
-  ami           = "ami-0427a796a4e582276" 
+  ami           = "ami-0fe681e65986bcf56" 
   instance_type = "t2.small"
   vpc_security_group_ids = [aws_security_group.project.id]
   subnet_id = module.vpc.public_subnets[0]
@@ -18,6 +18,6 @@ resource "aws_instance" "project" {
   }
  
 }
-resource "aws_ecr_repository" "nodejs" { #Create ecr
-  name = "nodejs"
-}
+# resource "aws_ecr_repository" "nodejs" { #Create ecr
+#   name = "nodejs"
+# }
