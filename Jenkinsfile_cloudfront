@@ -1,0 +1,53 @@
+pipeline {
+    agent any
+    parameters {
+        choice(name: 'Environment', choices: 'dev\nprod', description: 'Select the environment')
+    }
+    stages {
+        stage('Checkout Git Repository') {
+            steps {
+                script {
+                    def gitRepo = checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: '*/main']],
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [],
+                        userRemoteConfigs: [[url: 'https://github.com/alehhillka/project_remember.git']]
+                    ])
+                }
+            }
+        }
+        stage('Copy index.html to S3') {
+            when {
+                expression {
+                    return params.Environment == 'dev' || params.Environment == 'prod'
+                }
+            }
+            steps {
+                script {
+                    if (params.Environment == 'dev') {
+                        sh 'aws s3 cp index.html s3://dev.project.com/'
+                    } else if (params.Environment == 'prod') {
+                        sh 'aws s3 cp index.html s3://prod.project.com/'
+                    }
+                }
+            }
+        }
+        stage('Invalidate CloudFront Cache') {
+            when {
+                expression {
+                    return params.Environment == 'dev' || params.Environment == 'prod'
+                }
+            }
+            steps {
+                script {
+                    if (params.Environment == 'dev') {
+                        sh 'aws cloudfront create-invalidation --distribution-id EPACLBMOMU3CI --paths /index.html'
+                    } else if (params.Environment == 'prod') {
+                        sh 'aws cloudfront create-invalidation --distribution-id EPACLBMOMU3CI --paths /index.html'
+                    }
+                }
+            }
+        }
+    }
+}
